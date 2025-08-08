@@ -2,3 +2,5 @@ agno==1.2.8
 Requests==2.32.3
 streamlit==1.44.1
 openai>=1.0.0
+faiss-cpu==1.7.4
+PyPDF2==3.0.1
