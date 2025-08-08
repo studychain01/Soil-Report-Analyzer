@@ -3,7 +3,7 @@ import streamlit as st
 import numpy as np
 import faiss
 from PyPDF2 import PdfReader
-from openai import OpenAI
+
 
 # Initialize OpenAI client using API key from environment variables
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -77,17 +77,12 @@ if uploaded_file is not None:
     st.success("PDF processed and indexed.")
 
 
+
 # Display previous messages
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
-
-# User input handling
-if prompt := st.chat_input("Send a message"):
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.markdown(prompt)
 
     context = retrieve_context(prompt)
     messages = st.session_state.messages.copy()
@@ -103,6 +98,7 @@ if prompt := st.chat_input("Send a message"):
     with st.chat_message("assistant"):
         response = client.chat.completions.create(
             model="gpt-3.5-turbo", messages=messages
+
         )
         reply = response.choices[0].message.content
         st.markdown(reply)
